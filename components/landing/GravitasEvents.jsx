@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Cpu, Code, ShieldAlert, ArrowUpRight } from "lucide-react";
 
@@ -46,18 +46,15 @@ const headerVariants = {
   },
 };
 
-const cardVariants = {
+const desktopCardVariants = {
   hidden: (index) => {
     if (index === 0) {
-      // Left box moves in from outside the left side of the screen
       return { opacity: 0, x: "-100vw", y: 0 };
     }
     if (index === 1) {
-      // Middle box moves down from top of the screen
       return { opacity: 0, x: 0, y: "-100vh" };
     }
     if (index === 2) {
-      // Right box moves in from outside the right side of the screen
       return { opacity: 0, x: "100vw", y: 0 };
     }
     return { opacity: 0, y: 80 };
@@ -74,22 +71,39 @@ const cardVariants = {
   }),
 };
 
+const mobileCardVariants = {
+  hidden: { opacity: 1, x: 0, y: 0 },
+  visible: { opacity: 1, x: 0, y: 0 },
+};
+
 export default function GravitasEvents() {
   const [imgErrors, setImgErrors] = useState({});
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const handleImgError = (id) => {
     setImgErrors((prev) => ({ ...prev, [id]: true }));
   };
+
+  const cardVariants = isMobile ? mobileCardVariants : desktopCardVariants;
 
   return (
     <section className="relative z-10 w-full py-24 bg-transparent border-t-8 border-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         {/* Section Header */}
         <motion.div
-          initial="hidden"
+          initial={isMobile ? "visible" : "hidden"}
           whileInView="visible"
           viewport={{ amount: 0.15, once: false }}
-          variants={headerVariants}
+          variants={isMobile ? mobileCardVariants : headerVariants}
           className="mb-16 border-b-4 border-white/20 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6"
         >
           <div>
@@ -108,7 +122,7 @@ export default function GravitasEvents() {
 
         {/* 3 Events Grid */}
         <motion.div
-          initial="hidden"
+          initial={isMobile ? "visible" : "hidden"}
           whileInView="visible"
           viewport={{ amount: 0.2, once: false }}
           className="grid grid-cols-1 md:grid-cols-3 gap-10"
@@ -122,8 +136,8 @@ export default function GravitasEvents() {
                 key={event.id}
                 custom={index}
                 variants={cardVariants}
-                whileHover={{ x: 12, y: 12, transition: { duration: 0.2, ease: "easeOut" } }}
-                className="group relative h-96 w-full cursor-pointer border-4 border-white bg-black p-8 shadow-[12px_12px_0_0_#ffffff] hover:shadow-none transition-shadow duration-[350ms] flex flex-col justify-between overflow-hidden"
+                whileHover={isMobile ? undefined : { x: 12, y: 12, transition: { duration: 0.2, ease: "easeOut" } }}
+                className="group relative h-96 w-full cursor-pointer border-4 border-white bg-black p-8 shadow-[12px_12px_0_0_#ffffff] md:hover:shadow-none transition-shadow duration-[350ms] flex flex-col justify-between overflow-hidden"
               >
                 {/* Accent top border highlight */}
                 <div

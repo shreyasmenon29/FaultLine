@@ -24,10 +24,12 @@
     @apply m-0 min-h-full w-full overflow-x-hidden bg-fl-bg font-mono text-fl-text antialiased;
   }
 
-  /* Force hide native cursor for custom cursor sections */
-  .hide-native-cursor,
-  .hide-native-cursor * {
-    cursor: none !important;
+  /* Force hide native cursor for custom cursor sections (Desktop fine-pointer devices only) */
+  @media (min-width: 768px) and (pointer: fine) {
+    .hide-native-cursor,
+    .hide-native-cursor * {
+      cursor: none !important;
+    }
   }
 
   /* Custom Brutalist Scrollbar */

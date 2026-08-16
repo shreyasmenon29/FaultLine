@@ -95,19 +95,19 @@ export default function Home() {
                 </h3>
 
                 <div className="flex flex-col border-b-4 border-white/20">
-                  <div className="flex items-center py-8 border-t-4 border-white/20 hover:bg-white hover:text-black transition-colors px-4 -mx-4 group cursor-crosshair">
+                  <div className="flex items-center py-8 border-t-4 border-white/20 hover:bg-white hover:text-black transition-colors px-4 -mx-4 group md:cursor-crosshair">
                     <span className="fl-display text-5xl md:text-7xl w-32 md:w-48 shrink-0 group-hover:text-black group-hover:scale-110 transition-transform origin-left">08:00</span>
                     <span className="font-mono text-xl md:text-3xl font-black uppercase tracking-tighter">PHASE 1 BEGINS</span>
                   </div>
-                  <div className="flex items-center py-8 border-t-4 border-white/20 hover:bg-white hover:text-black transition-colors px-4 -mx-4 group cursor-crosshair">
+                  <div className="flex items-center py-8 border-t-4 border-white/20 hover:bg-white hover:text-black transition-colors px-4 -mx-4 group md:cursor-crosshair">
                     <span className="fl-display text-5xl md:text-7xl w-32 md:w-48 shrink-0 text-white/30 group-hover:text-black group-hover:scale-110 transition-transform origin-left">13:00</span>
                     <span className="font-mono text-xl md:text-3xl font-black uppercase tracking-tighter">THE SWAP (LUNCH)</span>
                   </div>
-                  <div className="flex items-center py-8 border-t-4 border-white/20 hover:bg-white hover:text-black transition-colors px-4 -mx-4 group cursor-crosshair">
+                  <div className="flex items-center py-8 border-t-4 border-white/20 hover:bg-white hover:text-black transition-colors px-4 -mx-4 group md:cursor-crosshair">
                     <span className="fl-display text-5xl md:text-7xl w-32 md:w-48 shrink-0 group-hover:text-black group-hover:scale-110 transition-transform origin-left">14:00</span>
                     <span className="font-mono text-xl md:text-3xl font-black uppercase tracking-tighter">PHASE 2 BEGINS</span>
                   </div>
-                  <div className="flex items-center py-8 border-t-4 border-white/20 hover:bg-white hover:text-black transition-colors px-4 -mx-4 group cursor-crosshair">
+                  <div className="flex items-center py-8 border-t-4 border-white/20 hover:bg-white hover:text-black transition-colors px-4 -mx-4 group md:cursor-crosshair">
                     <span className="fl-display text-5xl md:text-7xl w-32 md:w-48 shrink-0 text-white/30 group-hover:text-black group-hover:scale-110 transition-transform origin-left">20:00</span>
                     <span className="font-mono text-xl md:text-3xl font-black uppercase tracking-tighter">JUDGEMENT</span>
                   </div>
@@ -117,11 +117,11 @@ export default function Home() {
               <div className="mt-24">
                 <h3 className="fl-display text-4xl mb-8 text-white/50 uppercase tracking-widest border-l-4 border-white/50 pl-6">TARGET SECTORS</h3>
                 <div className="flex flex-wrap gap-4 font-mono text-xl font-bold uppercase">
-                  <span className="border-4 border-[#ff0000] text-[#ff0000] px-6 py-3 hover:bg-[#ff0000] hover:text-black transition-colors cursor-crosshair">BANKING</span>
-                  <span className="border-4 border-white px-6 py-3 hover:bg-white hover:text-black transition-colors cursor-crosshair">E-COMMERCE</span>
-                  <span className="border-4 border-white px-6 py-3 hover:bg-white hover:text-black transition-colors cursor-crosshair">FOOD DELIVERY</span>
-                  <span className="border-4 border-white px-6 py-3 hover:bg-white hover:text-black transition-colors cursor-crosshair">DATING APP</span>
-                  <span className="border-4 border-[#ff0000] text-[#ff0000] px-6 py-3 hover:bg-[#ff0000] hover:text-black transition-colors cursor-crosshair">JOB PORTAL</span>
+                  <span className="border-4 border-[#ff0000] text-[#ff0000] px-6 py-3 hover:bg-[#ff0000] hover:text-black transition-colors md:cursor-crosshair">BANKING</span>
+                  <span className="border-4 border-white px-6 py-3 hover:bg-white hover:text-black transition-colors md:cursor-crosshair">E-COMMERCE</span>
+                  <span className="border-4 border-white px-6 py-3 hover:bg-white hover:text-black transition-colors md:cursor-crosshair">FOOD DELIVERY</span>
+                  <span className="border-4 border-white px-6 py-3 hover:bg-white hover:text-black transition-colors md:cursor-crosshair">DATING APP</span>
+                  <span className="border-4 border-[#ff0000] text-[#ff0000] px-6 py-3 hover:bg-[#ff0000] hover:text-black transition-colors md:cursor-crosshair">JOB PORTAL</span>
                 </div>
               </div>
 

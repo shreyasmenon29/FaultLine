@@ -4,6 +4,8 @@ import { motion, useMotionValue, useSpring, useMotionTemplate } from "framer-mot
 
 export default function HeroMask() {
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
@@ -14,7 +16,15 @@ export default function HeroMask() {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    // Set initial position to center of container
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 768 || window.matchMedia("(pointer: coarse)").matches;
+      setIsMobile(mobile);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    // Initial position for desktop
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
       cursorX.set(rect.width / 2);
@@ -22,25 +32,20 @@ export default function HeroMask() {
     }
 
     const moveCursor = (e) => {
-      if (!containerRef.current) return;
+      if (!containerRef.current || isMobile) return;
       const rect = containerRef.current.getBoundingClientRect();
-      const clientX = e.touches && e.touches[0] ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches && e.touches[0] ? e.touches[0].clientY : e.clientY;
-      if (clientX !== undefined && clientY !== undefined) {
-        cursorX.set(clientX - rect.left);
-        cursorY.set(clientY - rect.top);
+      if (e.clientX !== undefined && e.clientY !== undefined) {
+        cursorX.set(e.clientX - rect.left);
+        cursorY.set(e.clientY - rect.top);
       }
     };
 
     window.addEventListener("mousemove", moveCursor);
-    window.addEventListener("touchmove", moveCursor, { passive: true });
-    window.addEventListener("touchstart", moveCursor, { passive: true });
     return () => {
+      window.removeEventListener("resize", checkMobile);
       window.removeEventListener("mousemove", moveCursor);
-      window.removeEventListener("touchmove", moveCursor);
-      window.removeEventListener("touchstart", moveCursor);
     };
-  }, [cursorX, cursorY]);
+  }, [cursorX, cursorY, isMobile]);
 
   const maskImageTemplate = useMotionTemplate`circle(${isHovered ? 400 : 80}px at ${mouseXSpring}px ${mouseYSpring}px)`;
 
@@ -54,28 +59,28 @@ export default function HeroMask() {
 
       <div className="absolute bottom-6 right-4 sm:bottom-12 sm:right-8 md:bottom-24 md:right-24 z-30 w-12 h-12 sm:w-20 sm:h-20 md:w-32 md:h-32 border-b-4 border-r-4 md:border-b-8 md:border-r-8 border-[#ff0000] mix-blend-difference pointer-events-none"></div>
 
-      {/* MASK LAYER (Inverted, revealed by mouse/touch) */}
-      <motion.div
-        className="absolute inset-0 z-20 flex items-center justify-center bg-white text-black"
-        style={{
-          clipPath: maskImageTemplate
-        }}
-      >
-        <div
-          className="w-full h-full flex flex-col items-center justify-center p-4 text-center"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          onTouchStart={() => setIsHovered(true)}
-          onTouchEnd={() => setIsHovered(false)}
+      {/* MASK LAYER (Desktop only cursor mask) */}
+      {!isMobile && (
+        <motion.div
+          className="absolute inset-0 z-20 hidden md:flex items-center justify-center bg-white text-black pointer-events-none md:pointer-events-auto"
+          style={{
+            clipPath: maskImageTemplate
+          }}
         >
-          <h1 className="fl-display text-[clamp(2.2rem,8.5vw,8rem)] leading-none tracking-tighter text-black uppercase animate-jitter px-2 sm:px-4 max-w-full">
-            <span className="text-[#ff0000]">FAULT</span>LINE
-          </h1>
-          <p className="text-xs sm:text-lg md:text-2xl font-display font-black uppercase tracking-wider md:tracking-widest mt-4 md:mt-8 px-3 py-2 md:p-4 bg-black text-white max-w-[90vw] text-center">
-            SYSTEM COMPROMISED // ERROR CODE: 0x6767
-          </p>
-        </div>
-      </motion.div>
+          <div
+            className="w-full h-full flex flex-col items-center justify-center p-4 text-center"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            <h1 className="fl-display text-[clamp(2.2rem,8.5vw,8rem)] leading-none tracking-tighter text-black uppercase animate-jitter px-2 sm:px-4 max-w-full">
+              <span className="text-[#ff0000]">FAULT</span>LINE
+            </h1>
+            <p className="text-xs sm:text-lg md:text-2xl font-display font-black uppercase tracking-wider md:tracking-widest mt-4 md:mt-8 px-3 py-2 md:p-4 bg-black text-white max-w-[90vw] text-center">
+              SYSTEM COMPROMISED // ERROR CODE: 0x6767
+            </p>
+          </div>
+        </motion.div>
+      )}
 
       {/* BASE LAYER */}
       <div className="w-full h-full flex flex-col items-center justify-center absolute inset-0 z-10 fl-tech-grid p-4 text-center">
